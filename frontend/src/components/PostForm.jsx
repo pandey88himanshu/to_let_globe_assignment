@@ -1,6 +1,11 @@
-import React from "react";
-
+import React, { useState } from "react";
+import RichTextEditor from "./RichTextEditor";
 const PostForm = () => {
+  const [content, setContent] = useState("");
+
+  const handleContentChange = (value) => {
+    setContent(value);
+  };
   return (
     <>
       <div className="w-full h-[70vh] text-white bg-[#070706] flex justify-center">
@@ -31,12 +36,7 @@ const PostForm = () => {
             </div>
             <div className=" flex flex-col gap-6">
               <label htmlFor="description">Enter Post Description</label>
-              <textarea
-                className="w-[60vw]"
-                name="description"
-                id="description"
-                placeholder="Enter Here"
-              />
+              <RichTextEditor value={content} onChange={handleContentChange} />
             </div>
             <div className=" flex flex-col gap-6">
               <label htmlFor="image">Choose Your Image</label>

@@ -18,6 +18,9 @@ const Nav = () => {
               <Link to="/about">About</Link>
               <Link to="/blog">Blog</Link>
               <Link to="/addpost">Add Post</Link>
+              <Link to="/login" className="bg-red-500 px-4 py-2">
+                Login
+              </Link>
             </ul>
           </div>
         </div>
