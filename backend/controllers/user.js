@@ -1,5 +1,6 @@
 const User = require("../models/userSchema");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 // Sign-Up
 const signUp = async (req, res) => {
@@ -24,10 +25,38 @@ const signUp = async (req, res) => {
       return res.status(400).json({ message: "Try Stronger Password" });
     }
 
-    const user = new User({ name, email, password });
-    await user.save();
+     // Hash the password
+     const hashedPassword = await bcrypt.hash(password, 12);
+ 
+ 
+     // Save the user to the database
+     const userCreated = await User.create({name:name ,email:email,  password: hashedPassword});
 
-    return res.status(200).json({ message: "User created successfully" });
+     // Create a Response object to send back to the client with sensitive data excluded
+     const responseUser = {
+       _id: userCreated._id,
+       email: email,
+       name :name
+     };
+
+     // Generate an access token for the newly created user
+     const accessToken = jwt.sign(
+       { _id: userCreated._id },
+       KEY,
+       {
+         expiresIn: "1h",
+       }
+     );
+ 
+     // Send the response back to the client
+     res.status(201).json({
+       message: "Successfully SignUp !!!",
+       user: responseUser,
+       access_token: accessToken,
+       token_type: "Bearer",
+       expiresIn: "3600",
+     });
+    
   } catch (error) {
     console.error("Error in signUp:", error);
     return res.status(500).json({ message: "Error in signup" });
@@ -49,8 +78,25 @@ const logIn = async (req, res) => {
     }
 
     const isMatched = await bcrypt.compare(password, existingUser.password);
+
+    const responseUser = {
+      _id: existingUser._id,
+      email: email,
+   
+    };
     if (isMatched) {
-      return res.status(200).json({ message: "User login successful" });
+       // Generate an access token for the user
+       const accessToken = jwt.sign({ _id: existingUser._id }, KEY, {
+        expiresIn: "1h",
+      });
+       // Send the response back to the client
+       res.status(200).json({
+        message: "Login successfull.",
+        user: responseUser,
+        access_token: accessToken,
+        token_type: "Bearer",
+        expiresIn: "3600",
+      });
     } else {
       return res.status(400).json({ message: "Incorrect password" });
     }

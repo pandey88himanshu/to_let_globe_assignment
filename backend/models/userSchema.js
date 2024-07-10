@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 6,
   },
+  admin:{
+    type: String,
+    required: true
+  }
 });
 
 // Hashing password before saving the user document

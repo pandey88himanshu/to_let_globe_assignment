@@ -9,6 +9,7 @@ const router = require("./routes/router");
 app.use(cors());
 //enabling json reading
 app.use(express.json());
+const PORT =process.env.PORT ||8000
 //connecting the database from the db.js
 require("./connection/db");
 //middleware api
@@ -18,6 +19,6 @@ app.use("/", (req, res) => {
   res.send("Hello From Server Side");
 });
 //enabling port
-app.listen(process.env.PORT, () => {
-  console.log(`Server is running on port ${process.env.PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
