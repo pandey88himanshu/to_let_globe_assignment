@@ -42,39 +42,39 @@ const Login = () => {
   }
   return (
     <>
-      <div>
-        <div className=" bg-[#070706] text-white">
+      <div className="w-full h-[70vh] ">
+        <div className=" bg-[#070706] text-white px-8 w-full h-full flex justify-center items-center">
           <form action="">
-            <div>
+            <div className="flex flex-col ">
               <label>Enter Your Email</label>
               <input
-                className="text-black"
+                className="text-black w-[50vw] py-1 border-none outline-none"
                 type="email"
                 name="email"
                 value={details.email}
                 onChange={handleChange}
               />
             </div>
-            <div>
+            <div className="flex flex-col py-6 ">
               <label>Enter Your Password</label>
               <input
-                className="text-black"
+                className="text-black w-[50vw] py-1 border-none outline-none"
                 type="password"
                 name="password"
                 value={details.password}
                 onChange={handleChange}
               />
             </div>
-            <div>
+            <div className="flex items-center justify-between py-4">
               <button
                 className="px-4 py-2 bg-green-500 text-white"
                 onClick={submitHandler}
               >
                 Login
               </button>
-            </div>
-            <div>
-              <Link to="/signup">Sign Up</Link>
+              <div className="text-blue-500">
+                <Link to="/signup">Sign Up</Link>
+              </div>
             </div>
           </form>
         </div>

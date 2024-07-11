@@ -45,50 +45,49 @@ const Signup = () => {
 
   return (
     <>
-      {console.log(details)}
-      <div>
-        <div className="bg-[#070706] text-white">
+      <div className="w-full h-[70vh]">
+        <div className=" bg-[#070706] text-white px-8 w-full h-full flex justify-center items-center">
           <form onSubmit={submitHandler}>
-            <div>
+            <div className="flex flex-col ">
               <label htmlFor="name">Enter Name</label>
               <input
-                className="text-black"
+                className="text-black w-[50vw] py-1 border-none outline-none"
                 type="text"
                 onChange={handleChange}
                 name="name"
                 value={details.name}
               />
             </div>
-            <div>
+            <div className="flex flex-col py-3">
               <label htmlFor="email">Enter Email</label>
               <input
-                className="text-black"
+                className="text-black w-[50vw] py-1 border-none outline-none"
                 type="email"
                 onChange={handleChange}
                 name="email"
                 value={details.email}
               />
             </div>
-            <div>
+            <div className="flex flex-col py-3">
               <label htmlFor="password">Enter Password</label>
               <input
-                className="text-black"
+                className="text-black w-[50vw] py-1 border-none outline-none"
                 type="password"
                 onChange={handleChange}
                 name="password"
                 value={details.password}
               />
             </div>
-            <div>
+            <div className="flex items-center justify-between py-4">
               <button
                 className="px-4 py-2 bg-green-500 text-white"
                 type="submit"
               >
                 Sign Up
               </button>
-            </div>
-            <div>
-              <Link to="/login">Log In</Link>
+              <div className="text-blue-500">
+                <Link to="/login">Log In</Link>
+              </div>
             </div>
           </form>
         </div>

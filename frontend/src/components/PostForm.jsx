@@ -1,11 +1,59 @@
 import React, { useState } from "react";
+import axios from "axios";
 import RichTextEditor from "./RichTextEditor";
+
 const PostForm = () => {
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
+  const [image, setImage] = useState(null);
 
   const handleContentChange = (value) => {
     setContent(value);
   };
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("author", author);
+      formData.append("description", content);
+      formData.append("image", image);
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_URL}/api/v1/create`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Post created:", response.data);
+      // Optionally reset form fields after successful submission
+      setTitle("");
+      setAuthor("");
+      setContent("");
+      setImage(null);
+    } catch (error) {
+      console.error("Error creating post:", error);
+    }
+  };
+
+  const handleReset = () => {
+    setTitle("");
+    setAuthor("");
+    setContent("");
+    setImage(null);
+  };
+
   return (
     <>
       <div className="w-full h-[70vh] text-white bg-[#070706] flex justify-center">
@@ -13,7 +61,7 @@ const PostForm = () => {
           <div className=" text-center">
             <p>Add Post</p>
           </div>
-          <form action="" className=" flex flex-col gap-6">
+          <form onSubmit={handleSubmit} className=" flex flex-col gap-6">
             <div className="flex items-start flex-col">
               <label htmlFor="title">Enter Post Title</label>
               <input
@@ -22,6 +70,8 @@ const PostForm = () => {
                 placeholder="Enter Here"
                 name="title"
                 id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
             <div className=" flex flex-col gap-6">
@@ -32,6 +82,8 @@ const PostForm = () => {
                 placeholder="Enter Here"
                 name="author"
                 id="author"
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
               />
             </div>
             <div className=" flex flex-col gap-6">
@@ -44,13 +96,21 @@ const PostForm = () => {
                 type="file"
                 id="image"
                 className="w-[60vw] bg-white text-black"
+                onChange={handleImageChange}
               />
             </div>
             <div className="flex gap-4">
-              <button className="px-6 py-2 bg-green-500 text-white ">
+              <button
+                type="submit"
+                className="px-6 py-2 bg-green-500 text-white "
+              >
                 Create Post
               </button>
-              <button className="px-6 py-2 bg-red-500 text-white ">
+              <button
+                type="button"
+                className="px-6 py-2 bg-red-500 text-white "
+                onClick={handleReset}
+              >
                 Reset Content
               </button>
             </div>
