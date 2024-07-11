@@ -33,7 +33,7 @@ const Signup = () => {
         .then((res) => {
           console.log("API request successful:", res); // Log the response
 
-          if (res.status === 200) {
+          if (res.status === 201) {
             navigate("/login");
           }
         })

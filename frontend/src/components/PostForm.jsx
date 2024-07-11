@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import RichTextEditor from "./RichTextEditor";
 
@@ -7,6 +7,7 @@ const PostForm = () => {
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
+  const imageInputRef = useRef(null);
 
   const handleContentChange = (value) => {
     setContent(value);
@@ -42,6 +43,9 @@ const PostForm = () => {
       setAuthor("");
       setContent("");
       setImage(null);
+      if (imageInputRef.current) {
+        imageInputRef.current.value = "";
+      }
     } catch (error) {
       console.error("Error creating post:", error);
     }
@@ -52,6 +56,9 @@ const PostForm = () => {
     setAuthor("");
     setContent("");
     setImage(null);
+    if (imageInputRef.current) {
+      imageInputRef.current.value = "";
+    }
   };
 
   return (
@@ -97,6 +104,7 @@ const PostForm = () => {
                 id="image"
                 className="w-[60vw] bg-white text-black"
                 onChange={handleImageChange}
+                ref={imageInputRef}
               />
             </div>
             <div className="flex gap-4">
