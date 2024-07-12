@@ -62,8 +62,11 @@ router.post("/create", upload.single("image"), async (req, res) => {
   }
 });
 
+
 const { signUp, logIn } = require("../controllers/user");
+const { GetBlog } = require("../controllers/blogPost");
 router.post("/signup", signUp);
 router.post("/login", logIn);
+router.get("/Blogs",GetBlog);
 
 module.exports = router;

@@ -71,11 +71,12 @@ const logIn = async (req, res) => {
     }
 
     const existingUser = await User.findOne({ email });
+    console.log(existingUser);
     if (!existingUser) {
       return res.status(400).json({ message: "User does not exist" });
     }
 
-    const isMatched = await bcrypt.compare(password, existingUser.password);
+    const isMatched =  bcrypt.compare(password, existingUser.password);
 
     if (isMatched) {
       // Generate an access token for the user
@@ -84,7 +85,7 @@ const logIn = async (req, res) => {
       });
 
       // Send the response back to the client
-      return res.status(200).json({
+     return  res.status(200).json({
         message: "Login successful",
         user: {
           _id: existingUser._id,
