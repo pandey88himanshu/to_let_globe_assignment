@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Signup = () => {
       [name]: value,
     });
   }
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
   function submitHandler(e) {
     e.preventDefault(); // Prevent the default form submission behavior
@@ -24,22 +26,26 @@ const Signup = () => {
     console.log("Submit Handler Called"); // Log to check if function is being called
 
     if (!details.name || !details.email || !details.password) {
-      alert("Fill Details to submit");
+      toast.error("Fill Details to submit");
     } else {
-      console.log("Details are complete, making API request"); // Log before making the request
-
-      axios
-        .post(`${import.meta.env.VITE_APP_URL}/api/v1/signup`, details)
+      // console.log("Details are complete, making API request"); // Log before making the request
+      if (!emailRegex.test(details.email)) {
+        toast.error("Invalid email");
+      } else {
+       axios
+        .post(`http://localhost:3001/api/v1/signup`, details)
         .then((res) => {
-          console.log("API request successful:", res); // Log the response
-
-          if (res.status === 201) {
-            navigate("/login");
-          }
+          // console.log("API request successful:", res); // Log the response
+      
+          toast.success(res.data.message);
+          localStorage.setItem("access_token", response.data.access_token);
+         
         })
         .catch((error) => {
+          toast.error(error.response.data.message)
           console.error("API request failed:", error); // Log any errors
         });
+      }
     }
   }
 
