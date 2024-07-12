@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
 const Login = () => {
   const navigate = useNavigate();
   const [details, setDetails] = useState({
@@ -25,22 +24,20 @@ const Login = () => {
     try {
       if (!details.email || !details.password) {
         toast.error("Fill all fields");
-      }else if (!emailRegex.test(details.email)) {
-          toast.error("Invalid email");
-        }
-      
+      } else if (!emailRegex.test(details.email)) {
+        toast.error("Invalid email");
+      }
 
       // console.log("Details are complete, making API request:", details);
 
       const response = await axios.post(
-        "http://localhost:3001/api/v1/login",
+        "http://localhost:3000/api/v1/login",
         details
       );
       toast.success(response.data.message);
       // console.log("API request successful:", response.data);
       localStorage.setItem("access_token", response.data.access_token);
       if (response.status === 200) {
-      
         navigate("/blog"); // Redirect to blog page on successful login
       }
     } catch (error) {
@@ -54,7 +51,9 @@ const Login = () => {
       }
 
       // Handle specific error cases or display error message to the user
-      toast.error("Failed to login. Please check your credentials and try again.");
+      toast.error(
+        "Failed to login. Please check your credentials and try again."
+      );
     }
   };
 

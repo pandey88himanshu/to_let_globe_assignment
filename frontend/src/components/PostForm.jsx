@@ -80,7 +80,7 @@ const PostForm = () => {
             <div className="flex items-start flex-col">
               <label htmlFor="title">Enter Post Title</label>
               <input
-                className="w-[60vw]"
+                className="w-[60vw] text-black outline-none "
                 type="text"
                 placeholder="Enter Here"
                 name="title"
@@ -92,7 +92,7 @@ const PostForm = () => {
             <div className=" flex flex-col gap-6">
               <label htmlFor="author">Enter Post Author</label>
               <input
-                className="w-[60vw]"
+                className="w-[60vw] text-black outline-none"
                 type="text"
                 placeholder="Enter Here"
                 name="author"

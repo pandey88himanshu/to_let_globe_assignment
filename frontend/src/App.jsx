@@ -8,12 +8,12 @@ import AddPost from "./pages/AddPost";
 import About from "./pages/About";
 import LoginPage from "./pages/LoginPage";
 import Signup from "./components/Signup";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const App = () => {
   return (
     <div>
-         <ToastContainer/>
+      <ToastContainer />
       <Nav />
       <Routes>
         <Route path="/" element={<Home />} />

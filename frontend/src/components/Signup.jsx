@@ -8,7 +8,7 @@ const Signup = () => {
   const [details, setDetails] = useState({
     email: "",
     password: "",
-    name: "", // Ensure this matches the schema
+    name: "",
   });
 
   function handleChange(e) {
@@ -18,43 +18,40 @@ const Signup = () => {
       [name]: value,
     });
   }
+
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
   function submitHandler(e) {
-    e.preventDefault(); // Prevent the default form submission behavior
-
-    console.log("Submit Handler Called"); // Log to check if function is being called
+    e.preventDefault();
 
     if (!details.name || !details.email || !details.password) {
-      toast.error("Fill Details to submit");
+      toast.error("Fill in all fields to submit");
+    } else if (!emailRegex.test(details.email)) {
+      toast.error("Invalid email format");
     } else {
-      // console.log("Details are complete, making API request"); // Log before making the request
-      if (!emailRegex.test(details.email)) {
-        toast.error("Invalid email");
-      } else {
-       axios
-        .post(`http://localhost:3001/api/v1/signup`, details)
+      axios
+        .post(`http://localhost:3000/api/v1/signup`, details)
         .then((res) => {
-          // console.log("API request successful:", res); // Log the response
-      
           toast.success(res.data.message);
-          localStorage.setItem("access_token", response.data.access_token);
-         
+          localStorage.setItem("access_token", res.data.access_token); // Corrected variable name here
+
+          if (res.status === 201) {
+            navigate("/login");
+          }
         })
         .catch((error) => {
-          toast.error(error.response.data.message)
-          console.error("API request failed:", error); // Log any errors
+          toast.error(error.response.data.message);
+          console.error("API request failed:", error);
         });
-      }
     }
   }
 
   return (
     <>
       <div className="w-full h-[70vh]">
-        <div className=" bg-[#070706] text-white px-8 w-full h-full flex justify-center items-center">
+        <div className="bg-[#070706] text-white px-8 w-full h-full flex justify-center items-center">
           <form onSubmit={submitHandler}>
-            <div className="flex flex-col ">
+            <div className="flex flex-col">
               <label htmlFor="name">Enter Name</label>
               <input
                 className="text-black w-[50vw] py-1 border-none outline-none"

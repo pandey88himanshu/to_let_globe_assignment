@@ -15,7 +15,7 @@ app.use(express.json());
 //using url encoder to parse data from form
 app.use(express.urlencoded({ extended: false }));
 //using port from env
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT;
 //connecting the database from the db.js
 require("./connection/db");
 //middleware api
