@@ -7,17 +7,26 @@ const fs = require("fs");
 
 const uploadToCloudinary = async (filePath) => {
   let attempts = 0;
+  const retryDelay = 3000;
   const maxAttempts = 3;
-
+  console.log("Filepath", filePath);
   while (attempts < maxAttempts) {
     try {
       const result = await cloudinary.uploader.upload(filePath, {
         folder: "blog_images",
       });
+      console.log("res", result);
       return result.secure_url;
     } catch (error) {
       attempts++;
-      if (attempts >= maxAttempts) {
+      if (attempts < maxAttempts) {
+        console.error(
+          `Attempt ${attempts} failed. Retrying in ${
+            retryDelay / 1000
+          } seconds...`
+        );
+        await new Promise((resolve) => setTimeout(resolve, retryDelay));
+      } else {
         throw error;
       }
     }
@@ -26,25 +35,25 @@ const uploadToCloudinary = async (filePath) => {
 
 router.post("/create", upload.single("image"), async (req, res) => {
   try {
-    const { title, author, description } = req.body;
+    const { title, author, description, image } = req.body;
     const filePath = req.file ? req.file.path : null;
 
     let imageUrl = null;
+    console.log("Called");
+    // if (filePath) {
+    //   imageUrl = await uploadToCloudinary(filePath);
 
-    if (filePath) {
-      imageUrl = await uploadToCloudinary(filePath);
-
-      // Delete the temporary file after uploading to Cloudinary
-      fs.unlinkSync(filePath);
-    }
-
+    //   // Delete the temporary file after uploading to Cloudinary
+    //   fs.unlinkSync(filePath);
+    // }
+    console.log("ImageUrl", imageUrl);
     const newPost = new BlogPost({
       title,
       author,
       description,
-      image: imageUrl,
+      image: image,
     });
-
+    console.log("newpost", newPost);
     await newPost.save();
     res.status(201).json({ message: "Blog post created successfully" });
   } catch (error) {

@@ -2,11 +2,14 @@ import React, { useState, useRef } from "react";
 import axios from "axios";
 import RichTextEditor from "./RichTextEditor";
 
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { analytics } from "../pages/Firebase";
 const PostForm = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
+  const [media, setmedia] = useState(null);
   const imageInputRef = useRef(null);
 
   const handleContentChange = (value) => {
@@ -21,11 +24,16 @@ const PostForm = () => {
     e.preventDefault();
 
     try {
+      const imagesRef = ref(analytics, `blog/${image.name}`);
+      await uploadBytes(imagesRef, image);
+
+      const url = await getDownloadURL(imagesRef);
+      console.log("Url", url);
       const formData = new FormData();
       formData.append("title", title);
       formData.append("author", author);
       formData.append("description", content);
-      formData.append("image", image);
+      formData.append("image", url);
 
       const response = await axios.post(
         `${import.meta.env.VITE_APP_URL}/api/v1/create`,
