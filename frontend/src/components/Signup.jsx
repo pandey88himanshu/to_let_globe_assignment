@@ -26,7 +26,7 @@ const Signup = () => {
     console.log("Submit Handler Called"); // Log to check if function is being called
 
     if (!details.name || !details.email || !details.password) {
-      toast.error("Fill Details to submit");
+      toast.error("Fill All the Details to submit");
     } else {
       // console.log("Details are complete, making API request"); // Log before making the request
       if (!emailRegex.test(details.email)) {

@@ -2,7 +2,7 @@
 const router = require("express").Router();
 const upload = require("../middleware/multer");
 const BlogPost = require("../models/blogPostSchema");
-const cloudinary = require("../middleware/cloudinary");
+
 const fs = require("fs");
 
 const uploadToCloudinary = async (filePath) => {
