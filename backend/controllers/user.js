@@ -71,7 +71,7 @@ const logIn = async (req, res) => {
     }
 
     const existingUser = await User.findOne({ email });
-    console.log(existingUser);
+    // console.log(existingUser);
     if (!existingUser) {
       return res.status(400).json({ message: "User does not exist" });
     }

@@ -17,11 +17,12 @@ const Login = () => {
       [name]: value,
     });
   };
-
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   const submitHandler = async (e) => {
     e.preventDefault();
 
     try {
+<<<<<<< HEAD
       if (!details.email || !details.password) {
         toast.error("Fill all fields");
       } else if (!emailRegex.test(details.email)) {
@@ -29,6 +30,12 @@ const Login = () => {
       }
 
       // console.log("Details are complete, making API request:", details);
+=======
+     if (!emailRegex.test(details.email)) {
+          toast.error("Invalid email");
+        }
+    
+>>>>>>> c57d6e3d6de1311b2bf9cdfa5bc7a5bdfb55556c
 
       const response = await axios.post(
         "http://localhost:3000/api/v1/login",
@@ -41,19 +48,24 @@ const Login = () => {
         navigate("/blog"); // Redirect to blog page on successful login
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      // toast.error(error.message);
       console.error("API request failed:", error.response || error);
 
       if (error.response) {
+        toast.error(error.response.data.message);
         console.log("Response data:", error.response.data);
         console.log("Response status:", error.response.status);
         console.log("Response headers:", error.response.headers);
       }
 
       // Handle specific error cases or display error message to the user
+<<<<<<< HEAD
       toast.error(
         "Failed to login. Please check your credentials and try again."
       );
+=======
+      
+>>>>>>> c57d6e3d6de1311b2bf9cdfa5bc7a5bdfb55556c
     }
   };
 

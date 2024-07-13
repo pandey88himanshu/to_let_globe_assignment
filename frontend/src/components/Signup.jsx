@@ -25,12 +25,14 @@ const Signup = () => {
     e.preventDefault();
 
     if (!details.name || !details.email || !details.password) {
-      toast.error("Fill in all fields to submit");
-    } else if (!emailRegex.test(details.email)) {
-      toast.error("Invalid email format");
+      toast.error("Fill Details to submit");
     } else {
-      axios
-        .post(`http://localhost:3000/api/v1/signup`, details)
+      // console.log("Details are complete, making API request"); // Log before making the request
+      if (!emailRegex.test(details.email)) {
+        toast.error("Invalid email");
+      } else {
+       axios
+        .post(`http://localhost:3001/api/v1/signup`, details)
         .then((res) => {
           toast.success(res.data.message);
           localStorage.setItem("access_token", res.data.access_token); // Corrected variable name here
