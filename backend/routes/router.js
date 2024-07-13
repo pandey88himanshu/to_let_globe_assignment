@@ -2,6 +2,7 @@
 const router = require("express").Router();
 const upload = require("../middleware/multer");
 const BlogPost = require("../models/blogPostSchema");
+
 // const cloudinary = require("../middleware/cloudinary");
 const fs = require("fs");
 
@@ -66,6 +67,6 @@ const { signUp, logIn } = require("../controllers/user");
 const { GetBlog } = require("../controllers/blogPost");
 router.post("/signup", signUp);
 router.post("/login", logIn);
-router.get("/Blogs", GetBlog);
+router.get("/getall", GetBlog);
 
 module.exports = router;
