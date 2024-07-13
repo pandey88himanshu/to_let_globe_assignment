@@ -1,8 +1,34 @@
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { UserContext } from "../Auth/UserContext";
+import axios from "axios";
 
 const Nav = () => {
   const [activeTab, setActiveTab] = useState("home");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const { email, setEmail } = useContext(UserContext);
+
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    axios
+      .get(`${import.meta.env.VITE_APP_URL}/api/v1/getdata`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setEmail(response.data.user.email);
+        if (response.data.user.role === "admin") {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
   function handleTabChange(tab) {
     setActiveTab(tab);
@@ -46,15 +72,17 @@ const Nav = () => {
             >
               Blog
             </Link>
-            <Link
-              to="/addpost"
-              onClick={() => handleTabChange("addBlog")}
-              className={`px-4 py-1 rounded-lg ${
-                activeTab === "addBlog" ? "bg-cyan-500" : ""
-              }`}
-            >
-              Add Post
-            </Link>
+            {isAdmin && (
+              <Link
+                to="/addpost"
+                onClick={() => handleTabChange("addBlog")}
+                className={`px-4 py-1 rounded-lg ${
+                  activeTab === "addBlog" ? "bg-cyan-500" : ""
+                }`}
+              >
+                Add Post
+              </Link>
+            )}
             <Link to="/login" className="bg-green-500 px-4 py-2 rounded-lg">
               Login
             </Link>

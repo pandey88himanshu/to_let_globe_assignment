@@ -6,34 +6,6 @@ const BlogPost = require("../models/blogPostSchema");
 // const cloudinary = require("../middleware/cloudinary");
 const fs = require("fs");
 
-const uploadToCloudinary = async (filePath) => {
-  let attempts = 0;
-  const retryDelay = 3000;
-  const maxAttempts = 3;
-  console.log("Filepath", filePath);
-  while (attempts < maxAttempts) {
-    try {
-      const result = await cloudinary.uploader.upload(filePath, {
-        folder: "blog_images",
-      });
-      console.log("res", result);
-      return result.secure_url;
-    } catch (error) {
-      attempts++;
-      if (attempts < maxAttempts) {
-        console.error(
-          `Attempt ${attempts} failed. Retrying in ${
-            retryDelay / 1000
-          } seconds...`
-        );
-        await new Promise((resolve) => setTimeout(resolve, retryDelay));
-      } else {
-        throw error;
-      }
-    }
-  }
-};
-
 router.post("/create", upload.single("image"), async (req, res) => {
   try {
     const { title, author, description, image } = req.body;
@@ -63,10 +35,11 @@ router.post("/create", upload.single("image"), async (req, res) => {
   }
 });
 
-const { signUp, logIn } = require("../controllers/user");
+const { signUp, logIn, getData } = require("../controllers/user");
 const { GetBlog } = require("../controllers/blogPost");
 router.post("/signup", signUp);
 router.post("/login", logIn);
+router.get("/getdata", getData);
 router.get("/getall", GetBlog);
 
 module.exports = router;
