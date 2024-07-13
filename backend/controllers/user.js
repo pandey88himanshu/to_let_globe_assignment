@@ -77,7 +77,7 @@ const logIn = async (req, res) => {
     }
 
     const isMatched = bcrypt.compare(password, existingUser.password);
-
+    console.log(isMatched);
     if (isMatched) {
       // Generate an access token for the user
       const accessToken = jwt.sign({ _id: existingUser._id }, KEY, {
