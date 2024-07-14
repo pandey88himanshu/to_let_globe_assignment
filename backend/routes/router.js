@@ -7,9 +7,8 @@ const BlogPost = require("../models/blogPostSchema");
 const fs = require("fs");
 
 router.post("/create", upload.single("image"), async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   try {
-
     const { title, author, description, image } = req.body;
     const filePath = req.file ? req.file.path : null;
 
@@ -37,12 +36,12 @@ router.post("/create", upload.single("image"), async (req, res) => {
   }
 });
 
-const { signUp, logIn } = require("../controllers/user");
+const { signUp, logIn, getData } = require("../controllers/user");
 const { GetBlog, GetBlogByid } = require("../controllers/blogPost");
 router.post("/signup", signUp);
 router.post("/login", logIn);
 router.get("/getdata", getData);
 router.get("/getall", GetBlog);
-router.get("/Blog/:id",GetBlogByid);
+router.get("/Blog/:id", GetBlogByid);
 
 module.exports = router;

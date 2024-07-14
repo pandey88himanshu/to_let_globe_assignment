@@ -1,26 +1,20 @@
 // RichTextEditor.jsx
 
-import React, { useState } from "react";
+import React from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Import Quill styles
 
-const RichTextEditor = () => {
-  const [editorHtml, setEditorHtml] = useState("");
-
-  const handleChange = (html) => {
-    setEditorHtml(html);
-  };
-
+const RichTextEditor = ({ value, onChange }) => {
   return (
     <div>
       <ReactQuill
         theme="snow" // Specify theme ('snow' or 'bubble')
-        value={editorHtml}
-        onChange={handleChange}
+        value={value}
+        onChange={onChange}
         className="text-black bg-white"
       />
     </div>
   );
 };
 
-export default RichTextEditor; // Ensure you export the component
+export default RichTextEditor;

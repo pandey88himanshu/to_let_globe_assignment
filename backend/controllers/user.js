@@ -1,6 +1,6 @@
 const User = require("../models/userSchema"); // Adjust the import based on your file structure
 // const bcrypt = require("bcrypt");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -77,8 +77,8 @@ const logIn = async (req, res) => {
       return res.status(400).json({ message: "User does not exist" });
     }
 
-    const isMatched = await bcrypt.compare(password, existingUser.password)
-   
+    const isMatched = await bcrypt.compare(password, existingUser.password);
+
     console.log(isMatched);
     if (isMatched) {
       // Generate an access token for the user
