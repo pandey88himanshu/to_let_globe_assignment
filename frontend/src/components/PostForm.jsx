@@ -5,6 +5,7 @@ import axios from "axios";
 import RichTextEditor from "./RichTextEditor";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { analytics } from "../pages/Firebase";
+import { toast } from "react-toastify";
 
 const PostForm = () => {
   const [title, setTitle] = useState("");
@@ -59,6 +60,7 @@ const PostForm = () => {
       );
 
       console.log("Post created:", response.data);
+      toast.success("Created Succesfully");
 
       // Optionally reset form fields after successful submission
       setTitle("");

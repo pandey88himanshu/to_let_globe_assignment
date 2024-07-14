@@ -7,7 +7,13 @@ const Nav = () => {
   const [activeTab, setActiveTab] = useState("home");
   const [isAdmin, setIsAdmin] = useState(false);
   const { email, setEmail } = useContext(UserContext);
+  const [time, setTime] = useState(false);
 
+  function changeTime() {
+    setTime(!time);
+    // window.location.reload();
+  }
+  setInterval(changeTime, 100);
   useEffect(() => {
     const token = localStorage.getItem("access_token");
     axios
@@ -17,7 +23,7 @@ const Nav = () => {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        console.log(response.data.user);
         setEmail(response.data.user.email);
         if (response.data.user.role === "admin") {
           setIsAdmin(true);
@@ -33,7 +39,7 @@ const Nav = () => {
   function handleTabChange(tab) {
     setActiveTab(tab);
   }
-  function handleLogout(){
+  function handleLogout() {
     localStorage.removeItem("access_token");
     //  Navigate("/login")
   }
@@ -87,15 +93,19 @@ const Nav = () => {
                 Add Post
               </Link>
             )}
-           {
-            (localStorage.getItem("access_token")) ? 
-            <Link onClick={handleLogout} to={"/login"} className="bg-green-500 px-4 py-2 rounded-lg">
-            Logout
-          </Link>:
-            <Link to="/login" className="bg-green-500 px-4 py-2 rounded-lg">
-            Login
-          </Link>
-           }
+            {localStorage.getItem("access_token") ? (
+              <Link
+                onClick={handleLogout}
+                to={"/login"}
+                className="bg-red-500 px-4 py-2 rounded-lg"
+              >
+                Logout
+              </Link>
+            ) : (
+              <Link to="/login" className="bg-green-500 px-4 py-2 rounded-lg">
+                Login
+              </Link>
+            )}
           </ul>
         </div>
       </div>

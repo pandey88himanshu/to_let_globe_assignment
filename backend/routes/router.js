@@ -40,7 +40,8 @@ const { signUp, logIn, getData } = require("../controllers/user");
 const { GetBlog, GetBlogByid } = require("../controllers/blogPost");
 router.post("/signup", signUp);
 router.post("/login", logIn);
+router.get("/getdata", getData);
 router.get("/getall", GetBlog);
-router.get("/Blog/:id", GetBlogByid);
+router.get("/blog/:id", GetBlogByid);
 
 module.exports = router;
