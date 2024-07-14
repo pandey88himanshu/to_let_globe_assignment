@@ -60,5 +60,5 @@ Mern stack project for To Let Globe
 - Frontend : [ https://to-let-globe-assignmentfrontend.vercel.app/ ]
 
 - ## collaborator
-- Himanshu pande
+- Himanshu pandey
 - Madhuri Dalve
