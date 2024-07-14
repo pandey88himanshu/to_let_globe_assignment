@@ -54,3 +54,7 @@ Mern stack project for To Let Globe
 - ## For admin login
 - `admin Id: User@gmai.com`
 - `password: 12345678`
+
+- ## Deployed Links
+- Backend :[ https://to-let-globe-assignment.onrender.com ]
+- Frontend : [ https://to-let-globe-assignmentfrontend.vercel.app/ ]
