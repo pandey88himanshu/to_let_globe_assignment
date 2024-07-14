@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 const Nav = () => {
   const [activeTab, setActiveTab] = useState("home");
 
   function handleTabChange(tab) {
     setActiveTab(tab);
+  }
+  function handleLogout(){
+    localStorage.removeItem("access_token");
+     Navigate("/login")
   }
 
   return (
@@ -55,9 +59,14 @@ const Nav = () => {
             >
               Add Post
             </Link>
-            <Link to="/login" className="bg-green-500 px-4 py-2 rounded-lg">
-              Login
-            </Link>
+           {
+             localStorage.getItem("access_token") ? <Link onClick={handleLogout} to={"/login"}  className="bg-green-500 px-4 py-2 rounded-lg">
+             Logout
+           </Link>
+            : <Link to="/login" className="bg-green-500 px-4 py-2 rounded-lg">
+             Login
+           </Link>
+           }
           </ul>
         </div>
       </div>
