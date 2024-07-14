@@ -45,7 +45,7 @@ const signUp = async (req, res) => {
 
     // Generate an access token for the newly created user
     const accessToken = jwt.sign({ _id: userCreated._id }, KEY, {
-      expiresIn: 3600, // Expires in 1 hour
+      // expiresIn: 3600, // Expires in 1 hour
     });
 
     // Send the response back to the client
@@ -54,7 +54,7 @@ const signUp = async (req, res) => {
       user: responseUser,
       access_token: accessToken,
       token_type: "Bearer",
-      expiresIn: 3600,
+      // expiresIn: 3600,
     });
   } catch (error) {
     console.error("Error in signUp:", error);
@@ -83,7 +83,7 @@ const logIn = async (req, res) => {
     if (isMatched) {
       // Generate an access token for the user
       const accessToken = jwt.sign({ _id: existingUser._id }, KEY, {
-        expiresIn: "1h",
+        // expiresIn: "1d",
       });
 
       // Send the response back to the client
@@ -96,7 +96,7 @@ const logIn = async (req, res) => {
         },
         access_token: accessToken,
         token_type: "Bearer",
-        expiresIn: 3600, // Consistent data type
+        // expiresIn: "33d", // Consistent data type
       });
     } else {
       // Log the mismatch for debugging purposes
@@ -109,4 +109,32 @@ const logIn = async (req, res) => {
   }
 };
 
-module.exports = { signUp, logIn };
+const getData = async (req, res) => {
+  try {
+    // Extract the token from the request headers
+    const token = req.headers.authorization.split(" ")[1];
+    // console.log(token);
+    if (!token) {
+      return res.status(401).json({ message: "Access token is missing" });
+    }
+
+    // Verify the token and extract the user ID
+    const decoded = jwt.verify(token, KEY, { ignoreExpiration: true });
+    const userId = decoded._id;
+
+    // Fetch the user data from the database
+    const user = await User.findById(userId).select("-password"); // Exclude password
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Send the user data back to the client
+    res.status(200).json({ user });
+  } catch (error) {
+    console.error("Error in getData:", error);
+    return res.status(500).json({ message: "Error retrieving user data" });
+  }
+};
+
+module.exports = { signUp, logIn, getData };
