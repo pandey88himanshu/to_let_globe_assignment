@@ -41,7 +41,6 @@ const { signUp, logIn } = require("../controllers/user");
 const { GetBlog, GetBlogByid } = require("../controllers/blogPost");
 router.post("/signup", signUp);
 router.post("/login", logIn);
-router.get("/getdata", getData);
 router.get("/getall", GetBlog);
 router.get("/Blog/:id",GetBlogByid);
 
