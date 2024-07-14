@@ -7,13 +7,14 @@ const Nav = () => {
   const [activeTab, setActiveTab] = useState("home");
   const [isAdmin, setIsAdmin] = useState(false);
   const { email, setEmail } = useContext(UserContext);
+  const access_token = localStorage.getItem("access_token");
 
   useEffect(() => {
-    const token = localStorage.getItem("access_token");
+  
     axios
       .get(`${import.meta.env.VITE_APP_URL}/api/v1/getdata`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${access_token}`,
         },
       })
       .then((response) => {
@@ -88,7 +89,7 @@ const Nav = () => {
               </Link>
             )}
            {
-            (localStorage.getItem("access_token")) ? 
+            (access_token) ? 
             <Link onClick={handleLogout} to={"/login"} className="bg-green-500 px-4 py-2 rounded-lg">
             Logout
           </Link>:
