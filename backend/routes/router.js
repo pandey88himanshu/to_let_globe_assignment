@@ -2,8 +2,6 @@
 const router = require("express").Router();
 const upload = require("../middleware/multer");
 const BlogPost = require("../models/blogPostSchema");
-
-// const cloudinary = require("../middleware/cloudinary");
 const fs = require("fs");
 
 router.post("/create", upload.single("image"), async (req, res) => {
@@ -14,12 +12,6 @@ router.post("/create", upload.single("image"), async (req, res) => {
 
     let imageUrl = null;
     console.log("Called");
-    // if (filePath) {
-    //   imageUrl = await uploadToCloudinary(filePath);
-
-    //   // Delete the temporary file after uploading to Cloudinary
-    //   fs.unlinkSync(filePath);
-    // }
     console.log("ImageUrl", imageUrl);
     const newPost = new BlogPost({
       title,
