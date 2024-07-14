@@ -35,7 +35,7 @@ const Nav = () => {
   }
   function handleLogout(){
     localStorage.removeItem("access_token");
-     Navigate("/login")
+    //  Navigate("/login")
   }
 
   return (
@@ -87,9 +87,15 @@ const Nav = () => {
                 Add Post
               </Link>
             )}
+           {
+            (localStorage.getItem("access_token")) ? 
+            <Link onClick={handleLogout} to={"/login"} className="bg-green-500 px-4 py-2 rounded-lg">
+            Logout
+          </Link>:
             <Link to="/login" className="bg-green-500 px-4 py-2 rounded-lg">
-              Login
-            </Link>
+            Login
+          </Link>
+           }
           </ul>
         </div>
       </div>
