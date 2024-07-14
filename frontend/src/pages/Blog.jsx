@@ -69,7 +69,7 @@ const Blog = () => {
               <p className="text-gray-400">By {post.author}</p>
               <p className="mt-2">{truncateDescription(post.description)}</p>
               <button
-                className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg"
+                className="mt-4 bg-cyan-500 text-white py-2 px-4 rounded-lg"
                 onClick={() => {
                   handleClick(post._id);
                 }}

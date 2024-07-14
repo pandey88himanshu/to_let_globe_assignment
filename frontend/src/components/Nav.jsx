@@ -7,13 +7,7 @@ const Nav = () => {
   const [activeTab, setActiveTab] = useState("home");
   const [isAdmin, setIsAdmin] = useState(false);
   const { email, setEmail } = useContext(UserContext);
-  const [time, setTime] = useState(false);
 
-  function changeTime() {
-    setTime(!time);
-    // window.location.reload();
-  }
-  setInterval(changeTime, 100);
   useEffect(() => {
     const token = localStorage.getItem("access_token");
     axios

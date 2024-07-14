@@ -29,12 +29,8 @@ const ReadBlog = () => {
     <div className="bg-[#070706] text-white w-full min-h-[70vh] flex flex-col items-center p-4">
       <h2 className="text-2xl font-bold">{post.title}</h2>
       <p className="text-gray-400">By {post.author}</p>
-      <img
-        src={post.image}
-        alt={post.title}
-        className="w-full max-w-4xl my-4"
-      />
-      <p className="mt-2">{post.description}</p>
+      <img src={post.image} alt={post.title} className="w-full max-w-xl my-4" />
+      <p className="mt-2 px-12">{post.description}</p>
     </div>
   );
 };
