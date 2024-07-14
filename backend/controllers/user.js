@@ -1,6 +1,6 @@
 const User = require("../models/userSchema"); // Adjust the import based on your file structure
 // const bcrypt = require("bcrypt");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -72,35 +72,29 @@ const logIn = async (req, res) => {
     }
 
     const existingUser = await User.findOne({ email });
-    console.log(existingUser);
     if (!existingUser) {
       return res.status(400).json({ message: "User does not exist" });
     }
 
-    const isMatched = await bcrypt.compare(password, existingUser.password)
-   
-    console.log(isMatched);
+    const isMatched = await bcrypt.compare(password, existingUser.password);
+
     if (isMatched) {
-      // Generate an access token for the user
       const accessToken = jwt.sign({ _id: existingUser._id }, KEY, {
-        // expiresIn: "1d",
+        expiresIn: "1d",
       });
 
-      // Send the response back to the client
       return res.status(200).json({
         message: "Login successful",
         user: {
           _id: existingUser._id,
-          email: email,
-          role: existingUser.role, // Include role if applicable
+          email: existingUser.email,
+          role: existingUser.role,
         },
         access_token: accessToken,
         token_type: "Bearer",
-        // expiresIn: "33d", // Consistent data type
+        expiresIn: "1d",
       });
     } else {
-      // Log the mismatch for debugging purposes
-      console.log("Password mismatch for user:", email);
       return res.status(400).json({ message: "Incorrect password" });
     }
   } catch (error) {

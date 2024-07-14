@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Blog = () => {
+  const navigate = useNavigate();
+
+  function handleClick(id) {
+    navigate("/readblog", { state: id });
+  }
+
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -28,9 +35,17 @@ const Blog = () => {
 
     fetchPosts();
   }, []);
+
   console.log("Posts:", posts);
   console.log("Posts type:", typeof posts);
   console.log("First post:", posts[0]);
+
+  const truncateDescription = (description) => {
+    if (description.length > 200) {
+      return description.substring(0, 200) + "...";
+    }
+    return description;
+  };
 
   return (
     <div className="bg-[#070706] text-white w-full min-h-[70vh] flex flex-col items-center p-4">
@@ -52,8 +67,13 @@ const Blog = () => {
             <div className="w-2/3 p-4">
               <h2 className="text-2xl font-bold">{post.title}</h2>
               <p className="text-gray-400">By {post.author}</p>
-              <p className="mt-2">{post.description}</p>
-              <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg">
+              <p className="mt-2">{truncateDescription(post.description)}</p>
+              <button
+                className="mt-4 bg-cyan-500 text-white py-2 px-4 rounded-lg"
+                onClick={() => {
+                  handleClick(post._id);
+                }}
+              >
                 Read More
               </button>
             </div>

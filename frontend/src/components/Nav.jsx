@@ -18,7 +18,7 @@ const Nav = () => {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        console.log(response.data.user);
         setEmail(response.data.user.email);
         if (response.data.user.role === "admin") {
           setIsAdmin(true);
@@ -34,7 +34,7 @@ const Nav = () => {
   function handleTabChange(tab) {
     setActiveTab(tab);
   }
-  function handleLogout(){
+  function handleLogout() {
     localStorage.removeItem("access_token");
     //  Navigate("/login")
   }
@@ -89,7 +89,7 @@ const Nav = () => {
               </Link>
             )}
            {
-            (access_token) ? 
+            (localStorage.getItem("access_token")) ? 
             <Link onClick={handleLogout} to={"/login"} className="bg-green-500 px-4 py-2 rounded-lg">
             Logout
           </Link>:
